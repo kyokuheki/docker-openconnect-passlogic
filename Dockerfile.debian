@@ -1,0 +1,31 @@
+FROM python:slim
+LABEL maintainer Kenzo Okuda <kyokuheki@gmail.com>
+
+ENV LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
+    DEBIAN_FRONTEND=noninteractive \
+    VPNC=/usr/share/vpnc-scripts/vpnc-script
+
+RUN set -x \
+ && apt-get update && apt-get install -y --no-install-recommends \
+    openconnect \
+    iproute2 \
+ && apt-get clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
+
+RUN set -x \
+ && pip3 install \
+    lxml \
+    pandas
+
+COPY ./assets/* /
+RUN chmod +x /wrapper-script /passlogic.py
+
+ENTRYPOINT []
+CMD set -x \
+ && python3 /passlogic.py | /usr/sbin/openconnect \
+      --passwd-on-stdin \
+      --no-dtls \
+      --verbose \
+      --script=/wrapper-script \
+      --user=$USERID \
+      $VPN_HOST \

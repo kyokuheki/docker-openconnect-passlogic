@@ -1,0 +1,33 @@
+#!/usr/bin/env sh
+
+do_print() {
+    i=0
+    while [ $i -lt $CISCO_SPLIT_INC ] ; do
+        eval NETWORK="\${CISCO_SPLIT_INC_${i}_ADDR}"
+        eval NETMASK="\${CISCO_SPLIT_INC_${i}_MASK}"
+        eval NETMASKLEN="\${CISCO_SPLIT_INC_${i}_MASKLEN}"
+        if [ "$NETWORK" != "0.0.0.0" ]; then
+            echo "wrapper-script: $i: $NETWORK/$NETMASK/$NETMASKLEN nexthop $TUNDEV"
+        else
+            echo "wrapper-script: $i: default nexthop $TUNDEV"
+        fi
+        i=`expr $i + 1`
+    done
+}
+
+echo "wrapper-script: CISCO_SPLIT_INC=$CISCO_SPLIT_INC"
+echo "wrapper-script: CISCO_SPLIT_INC_USER=$CISCO_SPLIT_INC_USER"
+
+CISCO_SPLIT_INC=${CISCO_SPLIT_INC_USER:-${CISCO_SPLIT_INC:-1}}
+CISCO_SPLIT_INC_0_ADDR=${CISCO_SPLIT_INC_0_ADDR:-10.0.0.0}
+CISCO_SPLIT_INC_0_MASK=${CISCO_SPLIT_INC_0_MASK:-255.0.0.0}
+CISCO_SPLIT_INC_0_MASKLEN=${CISCO_SPLIT_INC_0_MASKLEN:-8}
+CISCO_SPLIT_INC_0_PROTOCOL=${CISCO_SPLIT_INC_0_PROTOCOL:-0}
+CISCO_SPLIT_INC_0_SPORT=${CISCO_SPLIT_INC_0_SPORT:-0}
+CISCO_SPLIT_INC_0_DPORT=${CISCO_SPLIT_INC_0_DPORT:-0}
+
+echo "wrapper-script: result CISCO_SPLIT_INC=$CISCO_SPLIT_INC"
+do_print
+
+VPNC=${VPNC:-/usr/share/vpnc-scripts/vpnc-script}
+. $VPNC
