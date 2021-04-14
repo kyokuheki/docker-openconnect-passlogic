@@ -39,6 +39,10 @@ CISCO_SPLIT_INC_2_MASKLEN=24
 _EOT_
 ```
 
+see https://www.infradead.org/openconnect/vpnc-script.html, 
+http://git.infradead.org/users/dwmw2/vpnc-scripts.git/blob_plain/HEAD:/vpnc-script
+and https://gitlab.com/openconnect/vpnc-scripts/-/blob/master/vpnc-script.
+
 ### PassLogic JSON
 
 A PassLogic JSON is an array of XY coordinates. 
