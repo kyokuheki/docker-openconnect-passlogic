@@ -13,7 +13,7 @@ _EOT_
 
 ## configure routing entries
 The `wrapper-script` will configure nexthop on 10.0.0.0/8 as the VPN tunnel interface by default.
-If you want to change the routing entry of the VPN, define the following environment variable CISCO_SPLIT_INC*.
+If you want to change the routing entry of the VPN, define the following environment variable `CISCO_SPLIT_INC*`.
 
 ```shell
 cat >> ~/.passlogic <<_EOT_ 
